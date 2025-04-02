@@ -1,6 +1,55 @@
 import { log } from './utils.js';
 
 const SYSTEM_PROMPT="You are a narrative generator for role-playing game journals. The content must be diegetic. Avoid anachronistic references. Your output must be a valid JSON object. The following JSON contains your output instructions and the format to which your output needs to be. Consider everything wrapped in square brackets '[]' as instructions for you to strictly abide by. Your response must strictly adhere to the following JSON schema: {{ContentSchemaEscaped}}"
+
+/**
+ * Verifies connection to Ollama API and updates UI status
+ */
+async function verifyOllamaConnection() {
+  const apiUrl = game.settings.get('legend-lore', 'textGenerationApiUrl');
+  const apiKey = game.settings.get('legend-lore', 'apiKey');
+  
+  try {
+    const response = await fetch(apiUrl + '/tags', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": apiKey ? `Bearer ${apiKey}` : ""
+      }
+    });
+    
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return true;
+  } catch (error) {
+    log({message: "Ollama connection verification failed", error: error, type: ["error"]});
+    return false;
+  }
+}
+
+/**
+ * Fetches available models from Ollama API
+ */
+async function fetchOllamaModels() {
+  const apiUrl = game.settings.get('legend-lore', 'textGenerationApiUrl');
+  const apiKey = game.settings.get('legend-lore', 'apiKey');
+  
+  try {
+    const response = await fetch(apiUrl + '/tags', {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": apiKey ? `Bearer ${apiKey}` : ""
+      }
+    });
+    
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+    return data.models.map(model => model.name);
+  } catch (error) {
+    log({message: "Failed to fetch Ollama models", error: error, type: ["error"]});
+    return [];
+  }
+}
 /**
  * Registers the module's settings in Foundry VTT.  This allows for flexible API endpoint configuration.
  */
@@ -39,11 +88,11 @@ export function registerSettings() {
     });
     game.settings.register('legend-lore', 'textGenerationApiUrl', {
         name: 'Text Generation API URL',
-        hint: 'Enter the target URL for the text generation API endpoint.',
+        hint: 'Enter the target URL for the text generation API endpoint (e.g. localhost:11434 for Ollama).',
         scope: 'world',
         config: true,
         type: String,
-        default: 'api.openai.com/v1/chat/completions',
+        default: 'localhost:11434',
     });
     game.settings.register('legend-lore', 'apiKey', {
         name: "API Key",
@@ -116,6 +165,57 @@ export function registerSettings() {
         default: ["legend-lore.journal-entry-templates"]
     });
     log({message: "Game settings registered successfully."});
+}
+
+/**
+ * Updates the connection status indicator in the UI
+ */
+function updateConnectionStatus(isConnected) {
+  const statusElement = document.getElementById('connection-status');
+  if (isConnected) {
+    statusElement.innerHTML = '<i class="fas fa-check-circle"></i> Connected';
+    statusElement.classList.add('connected');
+    statusElement.classList.remove('disconnected');
+  } else {
+    statusElement.innerHTML = '<i class="fas fa-times-circle"></i> Disconnected';
+    statusElement.classList.add('disconnected');
+    statusElement.classList.remove('connected');
+  }
+}
+
+/**
+ * Populates the model dropdown with available models
+ */
+function populateModelDropdown(models) {
+  const selectElement = document.getElementById('ollama-models');
+  
+  // Clear existing options except the first one
+  while (selectElement.options.length > 1) {
+    selectElement.remove(1);
+  }
+  
+  // Add new model options
+  models.forEach(model => {
+    const option = document.createElement('option');
+    option.value = model;
+    option.textContent = model;
+    selectElement.appendChild(option);
+  });
+}
+
+/**
+ * Sets up event listeners for the settings form
+ */
+export function setupSettingsListeners() {
+  document.getElementById('verify-connection')?.addEventListener('click', async () => {
+    const isConnected = await verifyOllamaConnection();
+    updateConnectionStatus(isConnected);
+  });
+  
+  document.getElementById('refresh-models')?.addEventListener('click', async () => {
+    const models = await fetchOllamaModels();
+    populateModelDropdown(models);
+  });
 }
 /**
  * @class

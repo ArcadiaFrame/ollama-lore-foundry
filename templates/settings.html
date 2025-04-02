@@ -1,7 +1,45 @@
-<form>
+<form class="legend-lore-settings">
   <div class="form-group">
-    <label for="openai-api-key">OpenAI API Key:</label>
-    <input type="text" id="openai-api-key" name="openaiApiKey">
+    <label>API Connection</label>
+    <div class="form-fields">
+      <button type="button" id="verify-connection">
+        <i class="fas fa-plug"></i> Verify Connection
+      </button>
+      <span id="connection-status" class="status-indicator">
+        <i class="fas fa-question-circle"></i> Not verified
+      </span>
+    </div>
   </div>
-  <button type="submit">Save</button>
+  
+  <div class="form-group">
+    <label>Available Models</label>
+    <div class="form-fields">
+      <button type="button" id="refresh-models">
+        <i class="fas fa-sync"></i> Refresh Models
+      </button>
+      <select id="ollama-models" name="ollamaModels" aria-label="Select Ollama model">
+        <option value="">-- Select Model --</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="api-url">API URL</label>
+    <input type="text" id="api-url" name="apiUrl" placeholder="http://localhost:11434/api">
+  </div>
+  
+  <div class="form-group">
+    <label for="api-key">API Key (if required)</label>
+    <input type="password" id="api-key" name="apiKey" autocomplete="off">
+  </div>
+  
+  <div class="form-group">
+    <label for="https">
+      <input type="checkbox" id="https" name="https"> Enable HTTPS
+    </label>
+  </div>
+  
+  <button type="submit" class="save-settings">
+    <i class="fas fa-save"></i> Save Settings
+  </button>
 </form>
