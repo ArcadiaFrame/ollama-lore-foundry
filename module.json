@@ -1,5 +1,5 @@
 {
-  "title": "Legend Lore",
+  "title": "Ollama Lore",
   "description": "An LLM-powered journal content generator.",
   "version": "1.0.0",
   "url": "https://github.com/ArcadiaFrame/ollama-lore-foundry",
@@ -21,13 +21,13 @@
   ],
   "packFolders": [
     {
-      "name": "Legend Lore",
+      "name": "Ollama Lore",
       "sorting": "a",
       "packs": ["journal-entry-templates"],
       "color": "#3b0075"
     }
   ],
-  "id": "legend-lore",
+  "id": "ollama-lore",
   "compatibility": {
     "minimum": "11.0",
     "verified": "12.331"
