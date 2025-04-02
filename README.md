@@ -5,6 +5,7 @@ An LLM-powered journal content generator for FoundryVTT using Ollama as the back
 ## Installation
 
 1. Install the module in FoundryVTT through the module browser or manually by downloading the latest release.
+   - For manual installation via manifest URL, use: `https://raw.githubusercontent.com/ArcadiaFrame/ollama-lore-foundry/main/module.json`
 2. Ensure you have Ollama installed and running locally (default port: 11434).
 3. Configure the module settings in FoundryVTT:
    - Set "Text Generation API URL" to `localhost:11434` (default)
