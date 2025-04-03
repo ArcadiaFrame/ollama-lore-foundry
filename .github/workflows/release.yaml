@@ -107,12 +107,12 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: ${{ secrets.FOUNDRY_API_KEY }}" \
             -d '{
-              "id": "legend-lore",
+              "id": "ollama-lore",
               "dry-run": false,
               "release": {
                 "version": "${{ env.VERSION }}",
-                "manifest": "http://github.com/daxiongmao87/legend-lore-foundry/releases/latest/download/module.json",
-                "notes": "https://github.com/daxiongmao87/legend-lore-foundry/releases/tag/${{ env.TAG_NAME }}",
+                "manifest": "https://github.com/ArcadiaFrame/ollama-lore-foundry/releases/latest/download/module.json",
+                "notes": "https://github.com/ArcadiaFrame/ollama-lore-foundry/releases/tag/${{ env.TAG_NAME }}",
                 "compatibility": {
                   "minimum": "${{ steps.module_json.outputs.minimum }}",
                   "verified": "${{ steps.module_json.outputs.verified }}",

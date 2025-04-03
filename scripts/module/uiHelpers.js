@@ -330,7 +330,7 @@ async function handleGenerate(options = {
     let data;
     //start async timer
     const startTime = performance.now();
-    const maxTries = game.settings.get('legend-lore','generationTryLimit');
+    const maxTries = game.settings.get('ollama-lore','generationTryLimit');
     let tries = 0;
     let text
     while (tries < maxTries) {
@@ -434,7 +434,7 @@ function updateUIAfterResponse(html, returnedContent, tryCount, maxTries, genera
  */
 function populateModels() {
   const dropdown = document.getElementById("llm-model");
-  const models= game.settings.get('legend-lore','models').split(',').map(model => model.trim());
+  const models= game.settings.get('ollama-lore','models').split(',').map(model => model.trim());
   for (const model of models) {
     const option = document.createElement("option");
     option.value = model;

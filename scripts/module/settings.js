@@ -6,8 +6,8 @@ const SYSTEM_PROMPT="You are a narrative generator for role-playing game journal
  * Verifies connection to Ollama API and updates UI status
  */
 async function verifyOllamaConnection() {
-  const apiUrl = game.settings.get('legend-lore', 'textGenerationApiUrl');
-  const apiKey = game.settings.get('legend-lore', 'apiKey');
+  const apiUrl = game.settings.get('ollama-lore', 'textGenerationApiUrl');
+  const apiKey = game.settings.get('ollama-lore', 'apiKey');
   
   try {
     const response = await fetch(apiUrl + '/tags', {
@@ -30,8 +30,8 @@ async function verifyOllamaConnection() {
  * Fetches available models from Ollama API
  */
 async function fetchOllamaModels() {
-  const apiUrl = game.settings.get('legend-lore', 'textGenerationApiUrl');
-  const apiKey = game.settings.get('legend-lore', 'apiKey');
+  const apiUrl = game.settings.get('ollama-lore', 'textGenerationApiUrl');
+  const apiKey = game.settings.get('ollama-lore', 'apiKey');
   
   try {
     const response = await fetch(apiUrl + '/tags', {
@@ -373,7 +373,7 @@ Hooks.on("renderSettingsConfig", (app, html, data) => {
   // Convert the payloadJson setting field.
   convertSettingToTextarea(
     html,
-    "legend-lore",
+    "ollama-lore",
     "payloadJson",
     "width: 518px; min-height: 120px; height: 336px;",
     (settingDiv) => {
@@ -389,7 +389,7 @@ Hooks.on("renderSettingsConfig", (app, html, data) => {
   // Convert the globalContext setting field.
   convertSettingToTextarea(
     html,
-    "legend-lore",
+    "ollama-lore",
     "globalContext",
     "width: 518px; min-height: 80px; height: 120px;",
     (settingDiv) => {

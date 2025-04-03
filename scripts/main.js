@@ -6,7 +6,7 @@ import './module/journalManager.js';
 import './module/aiJournalSheet.js';
 import { log } from './module/utils.js';
 /**
- * Initializes the Legend Lore module. This function sets up a hook that is
+ * Initializes the Ollama Lore module. This function sets up a hook that is
  * triggered when Foundry VTT is ready, logging a message to indicate the module is ready.
  */
 function initializeModule() {
@@ -15,6 +15,6 @@ function initializeModule() {
 
 /**
  * A Foundry VTT hook that is called once when the VTT environment is fully loaded and ready.
- * It initializes the Legend Lore module.
+ * It initializes the Ollama Lore module.
  */
 Hooks.once('ready', initializeModule);

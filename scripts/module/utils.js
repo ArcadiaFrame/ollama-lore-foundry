@@ -13,7 +13,7 @@ export function log(params = {
   error: null
 }) {
   const options = Object.assign({ display: ["console"], type: ["info"] }, params);
-  const consoleMessage = `Legend Lore | ${options.message}`;
+  const consoleMessage = `Ollama Lore | ${options.message}`;
   const uiMessage = `${options.message}`;
 
   // Helper to extract detailed error info
