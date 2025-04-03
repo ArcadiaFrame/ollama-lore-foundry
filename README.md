@@ -29,7 +29,7 @@ An LLM-powered journal content generator for FoundryVTT using Ollama as the back
 
 ### Method 2: Manual Installation
 
-1. Download the [latest release](https://github.com/ArcadiaFrame/ollama-lore-foundry/releases/latest/download/module.zip)
+1. Download the [latest release](https://github.com/ArcadiaFrame/ollama-lore-foundry/archive/refs/heads/main.zip)
 2. Extract the zip file to your FoundryVTT modules directory
 3. Restart FoundryVTT and enable the module in your world
 
@@ -37,7 +37,7 @@ An LLM-powered journal content generator for FoundryVTT using Ollama as the back
 
 1. In FoundryVTT, navigate to the Add-on Modules tab
 2. Click "Install Module"
-3. Paste the following manifest URL: `https://github.com/ArcadiaFrame/ollama-lore-foundry/releases/latest/download/module.json`
+3. Paste the following manifest URL: `https://raw.githubusercontent.com/ArcadiaFrame/ollama-lore-foundry/main/module.json`
 4. Click "Install"
 
 ## Configuration
