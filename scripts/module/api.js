@@ -7,7 +7,7 @@ import { log, validateJsonAgainstSchema } from './utils.js';
  *  - {{ContentSchema}} for the content schema.
 **/
 export async function processLLMRequest(params) {
-  let payloadTemplate = game.settings.get('legend-lore', 'payloadJson');
+  let payloadTemplate = game.settings.get('ollama-lore', 'payloadJson');
   const escapedGenerationContext = JSON.stringify(params.contentTemplateInstructions).slice(1, -1);
   const escapedContentSchema = JSON.stringify(params.contentTemplateSchema).slice(1, -1);
 
@@ -35,13 +35,13 @@ export async function processLLMRequest(params) {
   }
 
   // Construct the API URL.
-  const useHttps = game.settings.get('legend-lore', 'https');
+  const useHttps = game.settings.get('ollama-lore', 'https');
   const protocol = useHttps ? 'https://' : 'http://';
-  const baseUrl = game.settings.get('legend-lore', 'textGenerationApiUrl');
+  const baseUrl = game.settings.get('ollama-lore', 'textGenerationApiUrl');
   const apiUrl = protocol + baseUrl;
 
   // Retrieve the API key.
-  const apiKey = game.settings.get('legend-lore', 'apiKey');
+  const apiKey = game.settings.get('ollama-lore', 'apiKey');
 
   let response = '';
 
@@ -62,7 +62,7 @@ export async function processLLMRequest(params) {
 
   const data = await response.json();
   // Use responseJsonPath game setting to extract the response from the JSON (e.g. choices.0.message.content)
-  const responseJsonPath = game.settings.get('legend-lore', 'responseJsonPath');
+  const responseJsonPath = game.settings.get('ollama-lore', 'responseJsonPath');
   let responseText = data;
   try {
     responseText = responseJsonPath.split('.').reduce((o, i) => o[i], data);
@@ -72,7 +72,7 @@ export async function processLLMRequest(params) {
   }
 
   // Use reasoningEndTag game setting (if not empty) to filter text before and including that tag.
-  const reasoningEndTag = game.settings.get('legend-lore', 'reasoningEndTag');
+  const reasoningEndTag = game.settings.get('ollama-lore', 'reasoningEndTag');
   if (reasoningEndTag) {
     responseText = responseText.split(reasoningEndTag).slice(1).join(reasoningEndTag);
   }

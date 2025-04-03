@@ -37,7 +37,7 @@ export async function openDialog(options = {
     contextName = "Generation Context";
     contextPlaceholder = "REQUIRED: Add information or instruction for the AI model to use as inspiration for generating this entry.";
   }
-  dialogTemplate = await renderTemplate('modules/legend-lore/templates/dialog.html', {
+  dialogTemplate = await renderTemplate('modules/ollama-lore/templates/dialog.html', {
     contextName: contextName,
     contextPlaceholder: contextPlaceholder
   });
@@ -54,10 +54,10 @@ export async function openDialog(options = {
             createNewJournalEntryPage({
                 type: type,
                 journalEntryId: selectedJournalId,
-                pageName: html.find(".legend-lore.entry-title")[0].value,
+                pageName: html.find(".ollama-lore.entry-title")[0].value,
                 highlightedText: highlightedText,
                 originalContent: originalContent,
-                pageContent: html.find(".legend-lore.generation-preview").html()
+                pageContent: html.find(".ollama-lore.generation-preview").html()
             });
           }
         },
@@ -123,7 +123,7 @@ async function dialogHelper(options = {
     if ( contentPreview.innerHTML != "Pending Generation") {
     }
   });
-  options.html.find(".legend-lore.entry-title").val(options.highlightedText);
+  options.html.find(".ollama-lore.entry-title").val(options.highlightedText);
   generateButton.click(function() {
       handleGenerate(options = {
         html: options.html,
@@ -131,7 +131,7 @@ async function dialogHelper(options = {
         highlightedText: options.highlightedText,
         journalEntryName: options.journalEntryName,
         originalTitle: options.originalTitle,
-        globalContext: (options.html.find('.global-context')[0].value) ? game.settings.get('legend-lore','globalContext') : '',
+        globalContext: (options.html.find('.global-context')[0].value) ? game.settings.get('ollama-lore','globalContext') : '',
         originalContent: (options.html.find('.originating-content')[0].value) ? options.originalContent : '',
         journalEntryId: options.journalEntryId
       });
@@ -152,8 +152,8 @@ async function dialogHelper(options = {
  * @param {string} previewName - The name of the preview element to reset.
  */
 function resetPreviewStyle(previewName) {
-  $(`.legend-lore.${previewName}`).empty();
-  $(`.legend-lore.${previewName}`).html(`
+  $(`.ollama-lore.${previewName}`).empty();
+  $(`.ollama-lore.${previewName}`).html(`
   <p>[Provide, with context to the original content, a brief introduction to the subject, including its basic definition, nature, and overall significance or relevance in the context it is being addressed.]</p>
 <h2>General Description</h2>
 <p>[Offer, with context to the original content, a general description of the subject, focusing on its key characteristics, features, or aspects. This section should lay the foundation for understanding the subject's uniqueness and importance.]</p>
@@ -164,10 +164,10 @@ function resetPreviewStyle(previewName) {
  * @param {string} previewName - The name of the preview element to update.
  */
 function updatePreviewStyle(previewName) {
-  $(`.legend-lore.${previewName}`).removeAttr( 'style' );
-  $(`.legend-lore.${previewName}`).css ('height', '184px');
-  $(`.legend-lore.${previewName}`).css ('padding-left', '8px');
-  $(`.legend-lore.${previewName}`).css ('padding-right', '8px');
+  $(`.ollama-lore.${previewName}`).removeAttr( 'style' );
+  $(`.ollama-lore.${previewName}`).css ('height', '184px');
+  $(`.ollama-lore.${previewName}`).css ('padding-left', '8px');
+  $(`.ollama-lore.${previewName}`).css ('padding-right', '8px');
 }
 /**
  * Updates the template preview in the dialog with content from a selected journal entry.
@@ -177,13 +177,13 @@ async function updateTemplatePreview(journalDataString) {
     updatePreviewStyle("template-preview");
     const journalData = JSON.parse(journalDataString);
     const templateContent = await getJournalEntryPages(journalData.pack, journalData.journalEntryName, journalData.journalEntryPageName);
-    $('.legend-lore.template-preview').html(templateContent.text.content);
+    $('.ollama-lore.template-preview').html(templateContent.text.content);
 }
 /**
  * Populates the journal entry template dropdown in the dialog with entries from the selected compendiums.
  */
 async function populateJournalEntryTemplates() {
-  const compendiumNames = game.settings.get('legend-lore', 'journalEntryTemplates');
+  const compendiumNames = game.settings.get('ollama-lore', 'journalEntryTemplates');
   const dropdown = document.getElementById("entry-template");
   clearDropdownOptions(dropdown);
   for (const compendiumName of compendiumNames) {

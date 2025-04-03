@@ -78,7 +78,7 @@ export function registerSettings() {
     }
   }
 }`
-    game.settings.register('legend-lore', 'https', {
+    game.settings.register('ollama-lore', 'https', {
         name: 'Enable HTTPS',
         hint: 'Whether to use HTTPS or HTTP for the API URL. Disable this if using localhost',
         scope: 'world',
@@ -86,7 +86,7 @@ export function registerSettings() {
         type: Boolean,
         default: true,
     });
-    game.settings.register('legend-lore', 'textGenerationApiUrl', {
+    game.settings.register('ollama-lore', 'textGenerationApiUrl', {
         name: 'Text Generation API URL',
         hint: 'Enter the target URL for the text generation API endpoint (e.g. localhost:11434 for Ollama).',
         scope: 'world',
@@ -94,7 +94,7 @@ export function registerSettings() {
         type: String,
         default: 'localhost:11434',
     });
-    game.settings.register('legend-lore', 'apiKey', {
+    game.settings.register('ollama-lore', 'apiKey', {
         name: "API Key",
         hint: "Enter your API key here. (optional)",
         scope: 'world',
@@ -102,7 +102,7 @@ export function registerSettings() {
         type: String,
         default: ""
     });
-    game.settings.register('legend-lore', 'models', {
+    game.settings.register('ollama-lore', 'models', {
         name: "Models",
         hint: "Enter the models you want to use for text generation in a comma-delimited list.",
         scope: 'world',
@@ -110,7 +110,7 @@ export function registerSettings() {
         type: String,
         default: "gpt-4o, gpt-3.5-turbo"
     });
-    game.settings.register('legend-lore', 'payloadJson', {
+    game.settings.register('ollama-lore', 'payloadJson', {
         name: "Payload JSON",
         hint: "Enter the JSON payload for the API request.",
         scope: 'world',
@@ -118,7 +118,7 @@ export function registerSettings() {
         type: String,
         default: defaultPayloadJson
     });
-    game.settings.register('legend-lore', 'responseJsonPath', {
+    game.settings.register('ollama-lore', 'responseJsonPath', {
         name: "Response JSON Path",
         hint: "Enter the path to the response JSON in dot notation.",
         scope: 'world',
@@ -126,7 +126,7 @@ export function registerSettings() {
         type: String,
         default: 'choices.0.message.content'
     });
-    game.settings.register('legend-lore', 'reasoningEndTag', {
+    game.settings.register('ollama-lore', 'reasoningEndTag', {
         name: "Reasoning End Tag",
         hint: "Enter the tag that indicates the end of the reasoning section. (optional)",
         scope: 'world',
@@ -134,7 +134,7 @@ export function registerSettings() {
         type: String,
         default: ''
     });
-    game.settings.register('legend-lore', 'generationTryLimit', {
+    game.settings.register('ollama-lore', 'generationTryLimit', {
         name: "Generation Try Limit",
         hint: "Enter the maximum number of tries for text generation.",
         scope: 'world',
@@ -142,7 +142,7 @@ export function registerSettings() {
         type: Number,
         default: 3
     });
-    game.settings.registerMenu("legend-lore", "templateSettingMenu", {
+    game.settings.registerMenu("ollama-lore", "templateSettingMenu", {
         name: "Journal Entry Templates",
         label: "Select Templates",
         hint: "Select journal entry templates for your module.",
@@ -150,7 +150,7 @@ export function registerSettings() {
         type: JournalEntrySelectionApplication,
         restricted: true
     });
-    game.settings.register('legend-lore', 'globalContext', {
+    game.settings.register('ollama-lore', 'globalContext', {
         name: "Global Context",
         hint: "Context that will be considered when generating content.",
         scope: 'world',
@@ -158,11 +158,11 @@ export function registerSettings() {
         type: String,
         default: ''
     });
-      game.settings.register('legend-lore', 'journalEntryTemplates', {
+      game.settings.register('ollama-lore', 'journalEntryTemplates', {
         scope: 'world',
         config: false,
         type: Object,
-        default: ["legend-lore.journal-entry-templates"]
+        default: ["ollama-lore.journal-entry-templates"]
     });
     log({message: "Game settings registered successfully."});
 }
@@ -239,9 +239,9 @@ class JournalEntrySelectionApplication extends FormApplication {
     static get defaultOptions() {
       return mergeObject(super.defaultOptions, {
         id: "journal-entry-selection",
-        classes: ["legend-lore"],
+        classes: ["ollama-lore"],
         title: "Select Journal Entries",
-        template: "modules/legend-lore/templates/journal-entry-selection.html",
+        template: "modules/ollama-lore/templates/journal-entry-selection.html",
         width: 640,
         height: "auto",
         resizable: true
@@ -252,7 +252,7 @@ class JournalEntrySelectionApplication extends FormApplication {
      * @returns {Object} Data to be used in rendering the template.
      */
     getData() {
-        const selectedIds = new Set(game.settings.get('legend-lore', 'journalEntryTemplates'));
+        const selectedIds = new Set(game.settings.get('ollama-lore', 'journalEntryTemplates'));
         return {
             entries: this.journalEntries.map(entry => ({
                 ...entry,
@@ -269,7 +269,7 @@ class JournalEntrySelectionApplication extends FormApplication {
         const selectedEntries = Object.entries(formData)
             .filter(([key, value]) => value)
             .map(([key]) => key);
-        await game.settings.set('legend-lore', 'journalEntryTemplates', selectedEntries);
+        await game.settings.set('ollama-lore', 'journalEntryTemplates', selectedEntries);
     }
     /**
      * Activates interactive listeners for the application's HTML, such as input filters.
@@ -314,10 +314,10 @@ Hooks.on('renderPackageConfiguration', (app, html, data) => {
     const ctaPanel = $(`
         <div style="border: solid; border-width: 1px; padding: 0.75rem; padding-bottom: 0.25rem; border-radius:8px; border-color: #5d142b; margin-bottom:1rem; background-color: rgba(255,255,255,0.35);">
             <h4><b> <i class="fa-regular fa-circle-question"></i> Need Help?</b></h4>
-            <p>Visit Legend Lore's <a href="https://www.github.com/Daxiongmao87/legend-lore-foundry">Github Repository</a> for information on these settings.</p>
+            <p>Visit Ollama Lore's <a href="https://www.github.com/ArcadiaFrame/ollama-lore-foundry">Github Repository</a> for information on these settings.</p>
         </div>
         `);
-    const apiModal = $(html).find("[data-tab='legend-lore']").find('h2').first();
+    const apiModal = $(html).find("[data-tab='ollama-lore']").find('h2').first();
     //we need to make sure the ctaPanel is directly after the h2 header
     apiModal.after(ctaPanel);
 });
@@ -329,7 +329,7 @@ Hooks.on('renderPackageConfiguration', (app, html, data) => {
  * event to re-escape newlines on save.
  *
  * @param {JQuery} html - The rendered settings HTML.
- * @param {string} moduleId - The module namespace (e.g., "legend-lore").
+ * @param {string} moduleId - The module namespace (e.g., "ollama-lore").
  * @param {string} settingKey - The key of the setting to modify.
  * @param {string} textareaStyle - CSS styles to apply to the textarea.
  * @param {Function} [repositionCallback] - Optional callback to reposition parts of the setting's container.

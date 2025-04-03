@@ -1,10 +1,19 @@
 {
   "title": "Ollama Lore",
-  "description": "An LLM-powered journal content generator for FoundryVTT.",
+  "description": "An LLM-powered journal content generator for FoundryVTT using Ollama as the backend.",
   "version": "1.0.0",
   "url": "https://github.com/ArcadiaFrame/ollama-lore-foundry",
   "manifest": "https://github.com/ArcadiaFrame/ollama-lore-foundry/releases/latest/download/module.json",
   "download": "https://github.com/ArcadiaFrame/ollama-lore-foundry/releases/latest/download/module.zip",
+  "readme": "https://github.com/ArcadiaFrame/ollama-lore-foundry/blob/main/README.md",
+  "bugs": "https://github.com/ArcadiaFrame/ollama-lore-foundry/issues",
+  "changelog": "https://github.com/ArcadiaFrame/ollama-lore-foundry/releases",
+  "authors": [
+    {
+      "name": "ArcadiaFrame",
+      "url": "https://github.com/ArcadiaFrame"
+    }
+  ],
   "esmodules": [
     "scripts/main.js"
   ],
@@ -22,7 +31,7 @@
   "packFolders": [
     {
       "name": "Ollama Lore",
-    "label": "Ollama Lore",
+      "label": "Ollama Lore",
       "sorting": "a",
       "packs": ["journal-entry-templates"],
       "color": "#3b0075"
@@ -31,6 +40,25 @@
   "id": "ollama-lore",
   "compatibility": {
     "minimum": "11.0",
-    "verified": "12.331"
-  }
+    "verified": "12.331",
+    "maximum": "12"
+  },
+  "license": "MIT",
+  "media": [
+    {
+      "type": "screenshot",
+      "url": "images/screenshot_dialog.png",
+      "caption": "Content generation dialog"
+    },
+    {
+      "type": "screenshot",
+      "url": "images/screenshot_highlight.png",
+      "caption": "Text highlighting feature"
+    },
+    {
+      "type": "screenshot",
+      "url": "images/screenshot_journal_button.png",
+      "caption": "Journal button integration"
+    }
+  ]
 }

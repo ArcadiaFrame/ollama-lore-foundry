@@ -60,9 +60,9 @@ Hooks.once('ready', () => {
                             }
 
                             const gptGenerateButtonContent = `
-                                <section class="section-legend-lore-highlight-background">
-                                    <h4 class="section-legend-lore-highlight-label">Legend Lore</h4>
-                                    <button class="generate-entry-link content-link content-link-legend-lore" onclick="generateEntryForText('${safeHighlightedText}', '${journalEntryId}'); return false;">
+                                <section class="section-ollama-lore-highlight-background">
+                                    <h4 class="section-ollama-lore-highlight-label">Ollama Lore</h4>
+                                    <button class="generate-entry-link content-link content-link-ollama-lore" onclick="generateEntryForText('${safeHighlightedText}', '${journalEntryId}'); return false;">
                                         <i class="fas fa-wand-sparkles"></i>Generate Entry for <strong><u>${displayedText}</u></strong>
                                     </button>
                                 </section>
@@ -83,17 +83,17 @@ Hooks.once('ready', () => {
                                     originalContent: originalContent
                                 });
                                 //destroy the element that matches 'locked-tooltip active link-matches link-matches-legend-lore' classes
-                                let lockedTooltip = document.querySelector('.locked-tooltip.active.link-matches.link-matches-legend-lore');
+                                let lockedTooltip = document.querySelector('.locked-tooltip.active.link-matches.link-matches-ollama-lore');
                                 if (lockedTooltip) {
                                     lockedTooltip.remove();
                                 }
                             };
-                            if (this.tooltip && this.tooltip.classList.contains('link-matches-legend-lore')) {
+                            if (this.tooltip && this.tooltip.classList.contains('link-matches-ollama-lore')) {
                                 this.tooltip.innerHTML = gptGenerateButtonContent; // Overwrite content
                             } else {
                                 // Create a new tooltip with the custom class added
-                                this._createTooltip(position, gptGenerateButtonContent, { cssClass: "link-matches link-matches-legend-lore" });
-                                this.tooltip.style.borderImage = "var(--legend-lore-color-silver) 1";
+                                this._createTooltip(position, gptGenerateButtonContent, { cssClass: "link-matches link-matches-ollama-lore" });
+                                this.tooltip.style.borderImage = "var(--ollama-lore-color-silver) 1";
                             }
                         }
                     };

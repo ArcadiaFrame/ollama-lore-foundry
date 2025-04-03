@@ -1,0 +1,27 @@
+<div class="ollama-lore dnd5e-item">
+  <div class="ollama-lore item-header">
+    <h2>{{itemName}}</h2>
+    <div class="ollama-lore item-type">
+      <span>{{itemType}}</span>
+      {{#if itemSubtype}}<span>({{itemSubtype}})</span>{{/if}}
+    </div>
+  </div>
+  
+  <div class="ollama-lore item-description">
+    <h3>Description</h3>
+    <div class="ollama-lore description-content">{{{description}}}</div>
+  </div>
+  
+  {{#if properties}}
+  <div class="ollama-lore item-properties">
+    <h3>Properties</h3>
+    <div class="properties pills">{{#each properties}}<span class="tag pill transparent pill-xs">{{this}}</span>{{/each}}</div>
+  </div>
+  {{/if}}
+  
+  {{#if source}}
+  <div class="ollama-lore item-source">
+    <h4>Source: {{source}}</h4>
+  </div>
+  {{/if}}
+</div>
