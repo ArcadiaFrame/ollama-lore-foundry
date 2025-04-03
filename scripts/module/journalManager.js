@@ -1,4 +1,34 @@
 import { log } from './utils.js';
+import Handlebars from 'handlebars';
+const itemTemplate = `
+<div class="ollama-lore dnd5e-item">
+  <div class="ollama-lore item-header">
+    <h2>{{itemName}}</h2>
+    <div class="ollama-lore item-type">
+      <span>{{itemType}}</span>
+      {{#if itemSubtype}}<span>({{itemSubtype}})</span>{{/if}}
+    </div>
+  </div>
+  
+  <div class="ollama-lore item-description">
+    <h3>Description</h3>
+    <div class="ollama-lore description-content">{{{description}}}</div>
+  </div>
+  
+  {{#if properties}}
+  <div class="ollama-lore item-properties">
+    <h3>Properties</h3>
+    <div class="properties pills">{{#each properties}}<span class="tag pill transparent pill-xs">{{this}}</span>{{/each}}</div>
+  </div>
+  {{/if}}
+  
+  {{#if source}}
+  <div class="ollama-lore item-source">
+    <h4>Source: {{source}}</h4>
+  </div>
+  {{/if}}
+</div>
+`;
 /**
  * Creates a new journal entry page in Foundry VTT.
  * @param {Object} options - Options for the new journal entry page.
@@ -40,9 +70,19 @@ export async function createNewJournalEntryPage(options = {
       const pages = journalEntry.pages.contents; 
       sortValue = pages.length ? (pages[pages.length - 1].sort + CONST.SORT_INTEGER_DENSITY) : 0;
     }
-    let data = {
+    const templateData = {
+  itemName: 'Magic Sword',
+  itemType: 'Weapon',
+  description: 'A glowing blade infused with arcane energy',
+  properties: ['Magical', 'Versatile'],
+  source: 'PHB pg. 123'
+};
+
+const data = {
       name: pageName || "New Page",
-      text: { content: pageContent || "" },
+      text: { 
+        content: pageContent || Handlebars.compile(fs.readFileSync('dnd 5e/templates/items/item-template.html', 'utf8'))(templateData)
+      },
       sort: sortValue,
       parent: journalEntry.id
     };

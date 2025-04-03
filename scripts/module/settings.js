@@ -158,12 +158,32 @@ export function registerSettings() {
         default: ""
     });
     game.settings.register('ollama-lore', 'models', {
-        name: "Models",
-        hint: "Enter the models you want to use for text generation in a comma-delimited list.",
+        name: 'LLM Models',
+        hint: 'Comma-separated list of available LLM models',
         scope: 'world',
         config: true,
         type: String,
-        default: "gpt-4o, gpt-3.5-turbo"
+        default: 'llama2, mistral'
+    });
+    game.settings.register('ollama-lore', 'protocol', {
+        name: 'API Protocol',
+        hint: 'Select HTTP or HTTPS for API connections',
+        scope: 'world',
+        config: true,
+        type: String,
+        choices: {
+            'http': 'HTTP',
+            'https': 'HTTPS'
+        },
+        default: 'http'
+    });
+    game.settings.register('ollama-lore', 'apiEndpoint', {
+        name: 'API Endpoint',
+        hint: 'Base URL for LLM API (include port if needed)',
+        scope: 'world',
+        config: true,
+        type: String,
+        default: 'localhost:11434'
     });
     game.settings.register('ollama-lore', 'payloadJson', {
         name: "Payload JSON",

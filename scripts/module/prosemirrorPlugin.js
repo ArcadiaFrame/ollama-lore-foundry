@@ -105,3 +105,33 @@ Hooks.once('ready', () => {
     };
 });
 
+// Add selection change handler
+editorView.dom.addEventListener('mouseup', (event) => {
+  const selection = window.getSelection();
+  const hasSelection = selection.toString().trim().length > 0;
+  
+  const generateButton = document.querySelector('.ollama-lore.generate-entry');
+  if (generateButton) {
+    generateButton.classList.toggle('visible', hasSelection);
+    
+    if (hasSelection) {
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      generateButton.style.top = `${rect.top + window.scrollY - 40}px`;
+      generateButton.style.left = `${rect.left + window.scrollX}px`;
+    }
+  }
+});
+
+// Handle document-wide selection changes
+document.addEventListener('selectionchange', () => {
+  const selection = window.getSelection();
+  const inEditor = editorView.dom.contains(selection.anchorNode);
+  const generateButton = document.querySelector('.ollama-lore.generate-entry');
+  
+  if (generateButton && inEditor) {
+    const hasText = selection.toString().trim().length > 0;
+    generateButton.classList.toggle('visible', hasText);
+  }
+});
+

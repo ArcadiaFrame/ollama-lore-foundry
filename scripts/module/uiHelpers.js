@@ -104,7 +104,7 @@ async function dialogHelper(options = {
   journalEntryId
 }) {
   await populateJournalDropdown(options.journalEntryId);
-  $(options.html[2]).prepend('<button class="dialog-button generate"><i class="fas fa-wand-sparkles"></i> Generate</button>');
+  $(options.html[2]).prepend('<button class="dialog-button generate ollama-lore-button"><i class="fas fa-wand-sparkles"></i> Generate</button>');
   const generateButton = options.html.find(".dialog-button.generate");
   const acceptButton = options.html.find(".dialog-button.accept");
   const contextField = options.html.find(".context");
@@ -288,7 +288,7 @@ async function handleGenerate(options = {
     genButton.innerHTML = `<i class="fas fa-spinner-third fa-spin"></i> Generating...`;
     // add a 'generating' class
     genButton.classList.add('generating');
-    const formElements = $(options.html).find('input, textarea, button, a');
+    const formElements = $(options.html).find('input, textarea, select, button, a');
     formElements.prop('disabled', true);
     const model = $(options.html).find(".ollama-lore.llm-model")[0].value;
     let entryTitle, contextInput, additionalContext;

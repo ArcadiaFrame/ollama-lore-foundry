@@ -13,19 +13,19 @@
 }
 
 /* Journal button styling */
-button.generate-entry {
-  background: #4b4a44;
-  color: #f0f0e0;
-  border: 1px solid #7a7971;
+button.ollama-lore.generate-entry {
+  background: var(--color-border-light-2);
+  border: 1px solid var(--color-border-dark);
   border-radius: 3px;
-  padding: 0 8px;
-  line-height: 24px;
-  cursor: pointer;
+  padding: 2px 6px;
+  margin: 0 4px;
+  font-family: var(--font-primary);
+  color: var(--color-text-dark);
 }
 
-button.generate-entry:hover {
-  background: #58574f;
-  box-shadow: 0 0 5px #ff6400;
+button.ollama-lore.generate-entry:hover {
+  background: var(--color-border-light-1);
+  box-shadow: 0 0 4px var(--color-shadow-primary);
 }
 
 /* Connection status indicators */
@@ -68,4 +68,14 @@ button.generate-entry:hover {
   0% { opacity: 0.3; }
   50% { opacity: 1; }
   100% { opacity: 0.3; }
+}
+
+.ProseMirror-menu .ollama-lore.generate-entry {
+  display: none;
+  position: absolute;
+  z-index: 100;
+}
+
+.ProseMirror-menu .ollama-lore.generate-entry.visible {
+  display: block;
 }

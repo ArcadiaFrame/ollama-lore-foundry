@@ -6,42 +6,20 @@ import { log, validateJsonAgainstSchema } from './utils.js';
  *  - {{GenerationContext}} for the user instructions,
  *  - {{ContentSchema}} for the content schema.
 **/
-export async function processLLMRequest(params) {
-  let payloadTemplate = game.settings.get('ollama-lore', 'payloadJson');
-  const escapedGenerationContext = JSON.stringify(params.contentTemplateInstructions).slice(1, -1);
-  const escapedContentSchema = JSON.stringify(params.contentTemplateSchema).slice(1, -1);
+export async function processLLMRequest({ model, contentTemplateInstructions, contentTemplateSchema, html }) {
+  const protocol = game.settings.get('ollama-lore', 'protocol');
+  const endpoint = `${protocol}://${game.settings.get('ollama-lore','apiEndpoint')}/api/generate`;
+  const payload = {
+    model,
+    prompt: contentTemplateInstructions,
+    format: 'json',
+    options: {
+        temperature: 0.7
+    },
+    stream: true
+  };
 
-  payloadTemplate = payloadTemplate
-    .replaceAll('{{Model}}', params.model)
-    .replaceAll('{{GenerationContext}}', escapedGenerationContext)
-    .replaceAll('{{ContentSchema}}', params.contentTemplateSchema)
-    .replaceAll('{{ContentSchemaEscaped}}', escapedContentSchema);
-
-  let payload;
-  try {
-    payload = JSON.parse(payloadTemplate);
-  } catch (error) {
-    log({
-      message: "Error parsing payload JSON template.",
-      error: error,
-      type: ["error"]
-    });
-    throw error;
-  }
-
-  // Optionally override the model.
-  if (params.model) {
-    payload.model = params.model;
-  }
-
-  // Add streaming parameter for Ollama
-  payload.stream = true;
-
-  // Construct the API URL.
-  const useHttps = game.settings.get('ollama-lore', 'https');
-  const protocol = useHttps ? 'https://' : 'http://';
-  const baseUrl = game.settings.get('ollama-lore', 'textGenerationApiUrl');
-  const apiUrl = protocol + baseUrl;
+  
 
   // Retrieve the API key.
   const apiKey = game.settings.get('ollama-lore', 'apiKey');
