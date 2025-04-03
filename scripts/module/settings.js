@@ -6,11 +6,22 @@ const SYSTEM_PROMPT="You are a narrative generator for role-playing game journal
  * Verifies connection to Ollama API and updates UI status
  */
 async function verifyOllamaConnection() {
-  const apiUrl = game.settings.get('ollama-lore', 'textGenerationApiUrl');
+  // Get the current settings
+  const useHttps = game.settings.get('ollama-lore', 'https');
+  const protocol = useHttps ? 'https://' : 'http://';
+  const baseUrl = game.settings.get('ollama-lore', 'textGenerationApiUrl');
+  const apiUrl = protocol + baseUrl;
   const apiKey = game.settings.get('ollama-lore', 'apiKey');
   
   try {
-    const response = await fetch(apiUrl + '/tags', {
+    // Update UI to show verification in progress
+    const statusElement = document.getElementById('connection-status');
+    if (statusElement) {
+      statusElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+      statusElement.classList.remove('connected', 'disconnected');
+    }
+    
+    const response = await fetch(apiUrl + '/api/tags', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -19,8 +30,13 @@ async function verifyOllamaConnection() {
     });
     
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    
+    // Show success message with UI notification
+    ui.notifications.info("Successfully connected to Ollama API");
     return true;
   } catch (error) {
+    // Show error message with UI notification
+    ui.notifications.error(`Failed to connect to Ollama API: ${error.message}`);
     log({message: "Ollama connection verification failed", error: error, type: ["error"]});
     return false;
   }
@@ -30,11 +46,31 @@ async function verifyOllamaConnection() {
  * Fetches available models from Ollama API
  */
 async function fetchOllamaModels() {
-  const apiUrl = game.settings.get('ollama-lore', 'textGenerationApiUrl');
+  // Get the current settings
+  const useHttps = game.settings.get('ollama-lore', 'https');
+  const protocol = useHttps ? 'https://' : 'http://';
+  const baseUrl = game.settings.get('ollama-lore', 'textGenerationApiUrl');
+  const apiUrl = protocol + baseUrl;
   const apiKey = game.settings.get('ollama-lore', 'apiKey');
   
   try {
-    const response = await fetch(apiUrl + '/tags', {
+    // Update UI to show loading state
+    const selectElement = document.getElementById('ollama-models');
+    if (selectElement) {
+      const loadingOption = document.createElement('option');
+      loadingOption.text = "Loading models...";
+      loadingOption.disabled = true;
+      loadingOption.selected = true;
+      
+      // Clear existing options
+      while (selectElement.options.length > 0) {
+        selectElement.remove(0);
+      }
+      
+      selectElement.add(loadingOption);
+    }
+    
+    const response = await fetch(apiUrl + '/api/tags', {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -44,8 +80,27 @@ async function fetchOllamaModels() {
     
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const data = await response.json();
-    return data.models.map(model => model.name);
+    
+    // Extract model names from the response
+    let models = [];
+    if (data.models) {
+      models = data.models.map(model => model.name);
+    } else if (Array.isArray(data)) {
+      // Handle different Ollama API response formats
+      models = data.map(model => model.name || model.model);
+    }
+    
+    // Save the models to settings
+    if (models.length > 0) {
+      await game.settings.set('ollama-lore', 'models', models.join(', '));
+      ui.notifications.info(`Found ${models.length} models in Ollama`);
+    } else {
+      ui.notifications.warn("No models found in Ollama. Please pull a model using the Ollama CLI.");
+    }
+    
+    return models;
   } catch (error) {
+    ui.notifications.error(`Failed to fetch Ollama models: ${error.message}`);
     log({message: "Failed to fetch Ollama models", error: error, type: ["error"]});
     return [];
   }
@@ -84,7 +139,7 @@ export function registerSettings() {
         scope: 'world',
         config: true,
         type: Boolean,
-        default: true,
+        default: false,
     });
     game.settings.register('ollama-lore', 'textGenerationApiUrl', {
         name: 'Text Generation API URL',

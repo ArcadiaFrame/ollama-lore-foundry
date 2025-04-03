@@ -11,3 +11,61 @@
 .ollama-lore.label-line-height {
   line-height: 26px;
 }
+
+/* Journal button styling */
+button.generate-entry {
+  background: #4b4a44;
+  color: #f0f0e0;
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  padding: 0 8px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+button.generate-entry:hover {
+  background: #58574f;
+  box-shadow: 0 0 5px #ff6400;
+}
+
+/* Connection status indicators */
+#connection-status.connected {
+  color: #18a81b;
+}
+
+#connection-status.disconnected {
+  color: #a81818;
+}
+
+/* Response container styling */
+.ollama-lore.response-container {
+  border: 1px solid #7a7971;
+  border-radius: 3px;
+  padding: 8px;
+  min-height: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #f0f0e0;
+}
+
+.ollama-lore.generation-preview {
+  font-family: sans-serif;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+/* Loading indicator for streaming responses */
+.ollama-lore.loading-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff6400;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}

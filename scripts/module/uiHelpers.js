@@ -290,16 +290,16 @@ async function handleGenerate(options = {
     genButton.classList.add('generating');
     const formElements = $(options.html).find('input, textarea, button, a');
     formElements.prop('disabled', true);
-    const model = $(options.html).find(".legend-lore.llm-model")[0].value;
+    const model = $(options.html).find(".ollama-lore.llm-model")[0].value;
     let entryTitle, contextInput, additionalContext;
     if(options.type === "context") {
       entryTitle = options.highlightedText;
       contextInput = JSON.stringify(ElementHandler.htmlToJson(options.originalContent.documentElement));
-      additionalContext = $(options.html).find(".legend-lore.context")[0].value;
+      additionalContext = $(options.html).find(".ollama-lore.context")[0].value;
     } else if (options.type === "generate") {
     // Assemble the user input from title and context.
-      entryTitle = $(options.html).find(".legend-lore.entry-title")[0].value;
-      contextInput = $(options.html).find(".legend-lore.context")[0].value;
+      entryTitle = $(options.html).find(".ollama-lore.entry-title")[0].value;
+      contextInput = $(options.html).find(".ollama-lore.context")[0].value;
     }
 
 
@@ -307,7 +307,7 @@ async function handleGenerate(options = {
     }
 
     // Get the content template as JSON from the HTML conversion.
-    const contentTemplateObj = ElementHandler.htmlToJson($(options.html).find('.legend-lore.template-preview')[0]);
+    const contentTemplateObj = ElementHandler.htmlToJson($(options.html).find('.ollama-lore.template-preview')[0]);
     // contentTemplateInstructions needs to include the journalEntryName, originalTitle, originalContent, and globalContext in a way that the LLM can understand.
     let contentTemplateInstructions = `
       Journal Name: ${options.journalEntryName},
