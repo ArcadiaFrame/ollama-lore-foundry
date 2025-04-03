@@ -15,16 +15,22 @@ A Foundry Virtual Tabletop module that enhances journaling capabilities with AI-
 🦜 Ollama API v0.1.27+
 
 ## Installation
-### Method 1: FoundryVTT Module Browser
+
+### FoundryVTT Module Browser
 1. Search for "Ollama Lore" in module browser
 2. Click Install
 
-### Method 2: Manual Installation
-1. Download latest release
-2. Extract to modules directory
+### Manual Installation (GitHub Manifest)
+1. In Foundry's Module Management screen:
+   - Paste this manifest URL: `https://raw.githubusercontent.com/ArcadiaFrame/ollama-lore-foundry/main/module.json`
+   - Click "Install"
+
+### Manual Installation (ZIP)
+1. [Download latest release](https://github.com/your-username/ollama-lore-foundry/releases/latest)
+2. Extract folder to `modules/ollama-lore-foundry`
 3. Enable in World Settings
 
-### Method 3: Development Setup
+## For Contributors
 ```bash
 git clone https://github.com/your-repo/ollama-lore-foundry.git
 npm install
@@ -48,8 +54,8 @@ npm install
 
 ## Development
 ```bash
-npm run dev  # Starts development server
-npm run build  # Creates production bundle
+# Use Foundry's built-in package tools for development
+# See module.json for build configuration
 ```
 
 ## License
